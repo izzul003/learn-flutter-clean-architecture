@@ -9,6 +9,7 @@ import 'package:learn_flutter_clean_architecture/features/daily_news/domain/enti
 import 'package:learn_flutter_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:learn_flutter_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
 import 'package:learn_flutter_clean_architecture/features/daily_news/presentation/widgets/article_tile.dart';
+import 'package:learn_flutter_clean_architecture/features/movie/presentation/pages/movie_list/movie_list_page.dart';
 
 class DailyNews extends StatelessWidget {
   const DailyNews({Key? key}) : super(key: key);
@@ -23,10 +24,17 @@ class DailyNews extends StatelessWidget {
 
   _buildAppbar(BuildContext context) {
     return AppBar(
-      title: const Text(
-        'Daily News',
-        style: TextStyle(
+      title: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => const MovieListPage()
+          ));
+        },
+        child: const Text(
+          'Daily News',
+          style: TextStyle(
             color: Colors.black
+          ),
         ),
       ),
       actions: [

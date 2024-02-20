@@ -11,6 +11,12 @@ import 'package:learn_flutter_clean_architecture/features/daily_news/domain/usec
 import 'package:learn_flutter_clean_architecture/features/daily_news/domain/usecases/save_article.dart';
 import 'package:learn_flutter_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_bloc.dart';
 import 'package:learn_flutter_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
+import 'package:learn_flutter_clean_architecture/features/movie/data/data_sources/remote/movie_api_service.dart';
+import 'package:learn_flutter_clean_architecture/features/movie/data/repository_impl/movie_repository_impl.dart';
+import 'package:learn_flutter_clean_architecture/features/movie/domain/repository/movie_repository.dart';
+import 'package:learn_flutter_clean_architecture/features/movie/domain/usecases/movie_use_case.dart';
+import 'package:learn_flutter_clean_architecture/features/movie/domain/usecases/movie_use_case_impl.dart';
+import 'package:learn_flutter_clean_architecture/features/movie/presentation/bloc/movie_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -23,10 +29,13 @@ Future<void> initializeDependencies() async {
 
   // Dependencies
   sl.registerSingleton<NewsApiService>(NewsApiService(sl()));
+  sl.registerSingleton<MovieApiService>(MovieApiService(sl()));
 
   sl.registerSingleton<ArticleRepository>(
       ArticleRepositoryImpl(sl(), sl())
   );
+
+  sl.registerSingleton<MovieRepository>(MovieRepositoryImpl(sl()));
 
   //UseCases
   sl.registerSingleton<GetArticleUseCase>(
@@ -45,6 +54,10 @@ Future<void> initializeDependencies() async {
       RemoveArticleUseCase(sl())
   );
 
+  sl.registerSingleton<MovieUseCase>(
+      MovieUseCaseImpl(sl())
+  );
+
 
   //Blocs
   sl.registerFactory<RemoteArticlesBloc>(
@@ -55,4 +68,5 @@ Future<void> initializeDependencies() async {
           ()=> LocalArticleBloc(sl(),sl(),sl())
   );
 
+  sl.registerFactory<MovieCubit>(()=> MovieCubit(sl()));
 }
